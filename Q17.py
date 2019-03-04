@@ -30,22 +30,36 @@ word[17] = 'seventeen'
 word[18] = 'eighteen'
 word[19] = 'nineteen'
 
-
 def num_letter_sum(number):
     sum_answer = 0
     n = 1
     while n <= number:
-    # the following will hold from 99 to 1
-        if n >19:
+        if n==1000:
+            sum_answer += len('onethousand')
+        if n >= 100 and n<1000:
+            sum_answer = sum_answer + len(word[math.floor(n / 100)]) + len('hundred')
+            if n % (math.floor(n / 100) * 100) >0 and n % (math.floor(n / 100) * 100) <20: # divied by 100,200,300
+                sum_answer = sum_answer + len(word[n % (math.floor(n / 100) * 100)]) + len('and')
+            elif n % (math.floor(n / 100) * 100) == 0:
+               sum_answer
+            else:#between 20 and 99
+                m = n % (math.floor(n / 100) * 100)
+                if m % (math.floor(m / 10) * 10) > 0:  # divied by 20,30,40
+                    # between 9 and 1
+                    sum_answer = sum_answer + len('and') + len(word_tens[math.floor(m / 10)])+ len(word[m % (math.floor(m / 10) * 10)])
+                else:
+                    sum_answer = sum_answer + len(word_tens[math.floor(m / 10)])+ len('and')
+
+        # the following will hold from 99 to 1
+        if n>19 and n<100:
             # number below 100
             # math.floor(n / 10) * 10
             if n % (math.floor(n / 10) * 10) >0: # divied by 20,30,40
                 # between 9 and 1
-                sum_answer = sum_answer + len(word[n % (math.floor(n / 10)*10)])
+                sum_answer = sum_answer + len(word_tens[math.floor(n/10)]) + len(word[n % (math.floor(n / 10)*10)])
             else:
                 # 10
                 sum_answer = sum_answer + len(word_tens[math.floor(n/10)])
-
 
         if n<=19:
             # Able to find from 19 to 1
@@ -54,5 +68,4 @@ def num_letter_sum(number):
         n += 1
     return sum_answer
 
-# one hundred
-num_letter_sum(36)
+print(num_letter_sum(1099))
